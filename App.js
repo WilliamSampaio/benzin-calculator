@@ -5,6 +5,33 @@ import Resultado from './src/Resultado';
 export default function App() {
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [valorAlcool, setValorAlcool] = useState('');
+  const [valorGasolina, setValorGasolina] = useState('');
+  const [resultado, setResultado] = useState({});
+
+  const calcular = () => {
+    if (valorAlcool.length == 0 || valorGasolina.length == 0) {
+      alert('Informe o valor do litro do Álcool/Gasolina!');
+      return;
+    }
+    let alcool = parseFloat(valorAlcool.replace(',', '.'));
+    let gasolina = parseFloat(valorGasolina.replace(',', '.'));
+    if (alcool / gasolina < 0.7) {
+      setResultado({
+        text: 'Álcool',
+        valorAlcool: alcool.toFixed(2).replace('.', ','),
+        valorGasolina: gasolina.toFixed(2).replace('.', ','),
+      });
+      setModalVisible(true);
+    } else {
+      setResultado({
+        text: 'Gasolina',
+        valorAlcool: alcool.toFixed(2).replace('.', ','),
+        valorGasolina: gasolina.toFixed(2).replace('.', ','),
+      });
+      setModalVisible(true);
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -22,6 +49,8 @@ export default function App() {
         <TextInput
           style={styles.input}
           keyboardType='numeric'
+          onChangeText={(v) => setValorAlcool(v.replace(/[^,0-9]+/g, ''))}
+          value={valorAlcool}
         />
         <Text style={[styles.txtBold, styles.txtSmall, { marginVertical: 7 }]}>
           Gasolina (preço por litro):
@@ -29,12 +58,12 @@ export default function App() {
         <TextInput
           style={styles.input}
           keyboardType='numeric'
+          onChangeText={(v) => setValorGasolina(v.replace(/[^,0-9]+/g, ''))}
+          value={valorGasolina}
         />
         <TouchableOpacity
           style={styles.btnSolid}
-          onPress={() => {
-            setModalVisible(true);
-          }}
+          onPress={calcular}
         >
           <Text style={[styles.txtBold, styles.txtLarge]}>
             Calcular
@@ -47,7 +76,7 @@ export default function App() {
         onRequestClose={() => {
           setModalVisible(false);
         }}>
-        <Resultado close={() => { setModalVisible(false); }} />
+        <Resultado data={resultado} close={() => { setModalVisible(false); }} />
       </Modal>
     </ScrollView>
   );

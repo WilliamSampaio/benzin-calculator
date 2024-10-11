@@ -13,16 +13,16 @@ export default function Resultado(props) {
                     color: '#00ff00',
                     marginBottom: 20
                 }]}>
-                    Compensa usar Álcool
+                    Compensa usar {props.data.text}
                 </Text>
                 <Text style={[styles.txtBold, styles.txtMedium, { marginVertical: 7 }]}>
                     Com os preços:
                 </Text>
                 <Text style={[styles.txtSmall, { color: 'white', marginVertical: 7 }]}>
-                    Álcool: R$ 4.60
+                    Álcool: R$ {props.data.valorAlcool}
                 </Text>
                 <Text style={[styles.txtSmall, { color: 'white', marginVertical: 7 }]}>
-                    Gasolina: R$ 7.60
+                    Gasolina: R$ {props.data.valorGasolina}
                 </Text>
                 <TouchableOpacity
                     style={styles.btnOutline}
